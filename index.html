@@ -18,6 +18,24 @@
             min-height: 100vh;
         }
 
+        button {
+            background-color: #fed400;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(158, 145, 0, 0.4);
+        }
+
+        button:hover {
+            background-color: #fed400;
+            transform: scale(1.05);
+        }
+
         #elenco {
             margin-top: 30px;
             background-color: rgba(255, 255, 255, 0.1);
@@ -41,18 +59,20 @@
     </style>
 </head>
 <body>
-    <div id="elenco">Caricamento dati...</div>
+    <button onclick="getauto()">Ottieni Auto</button>
+    <div id="elenco"></div>
 
     <script>
         function getauto() {
             const url = "https://raw.githubusercontent.com/salvatoremontemorra/20-05-25/main/automobili.json";
+            const elenco = document.getElementById('elenco');
+            elenco.innerHTML = "Caricamento...";
 
             let xhr = new XMLHttpRequest();
             xhr.open("GET", url, true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
-                    const elenco = document.getElementById('elenco');
                     if (xhr.status === 200) {
                         try {
                             const data = JSON.parse(xhr.responseText);
@@ -73,9 +93,6 @@
 
             xhr.send();
         }
-
-        // Esegui automaticamente al caricamento della pagina
-        window.onload = getauto;
     </script>
 </body>
 </html>
