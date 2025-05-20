@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Info</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        button {
+            background-color: #fed400;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(158, 145, 0, 0.4);
+        }
+
+        button:hover {
+            background-color: #fed400;
+            transform: scale(1.05);
+        }
+
+        #elenco {
+            margin-top: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 25px 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            min-width: 280px;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        #elenco p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        strong {
+            color: #00cec9;
+        }
+    </style>
+</head>
+<body>
+    <button id="forsetidannolamacchina" onclick="getauto()">Ottieni Auto</button>
+    <div id="elenco"></div>
+
+    <script>
+        function getauto() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "automobili.json", true);
+
+            xhr.onreadystatechange = function () 
+            {
+                if (xhr.readyState === 4) 
+                {
+                    if (xhr.status === 200) 
+                    {
+                        const data = JSON.parse(xhr.responseText);
+                        const elenco = document.getElementById('elenco');
+                        elenco.innerHTML = `
+                            <p><strong>Casa di produzione:</strong> ${data["casa di produzione"]}</p>
+                            <p><strong>Modello:</strong> ${data.modello}</p>
+                            <p><strong>Targa:</strong> ${data.targa}</p>
+                            <p><strong>Rubata?:</strong> ${data["rubata?"] ? "Sì" : "No"}</p>
+                        `;
+                    } else 
+                    {
+                        document.getElementById('elenco').innerText = 'Errore nel caricamento del file.';
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
